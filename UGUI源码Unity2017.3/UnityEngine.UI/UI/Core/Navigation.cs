@@ -3,6 +3,9 @@ using UnityEngine.Serialization;
 
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// µ¼º½
+    /// </summary>
     [Serializable]
     public struct Navigation : IEquatable<Navigation>
     {

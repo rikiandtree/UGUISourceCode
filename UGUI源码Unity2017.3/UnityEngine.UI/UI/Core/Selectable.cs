@@ -275,6 +275,11 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 播放相应状态的动画
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="instant"></param>
         protected virtual void DoStateTransition(SelectionState state, bool instant)
         {
             Color tintColor;
@@ -327,6 +332,9 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 选中的状态
+        /// </summary>
         protected enum SelectionState
         {
             Normal,
@@ -487,6 +495,11 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 开始颜色变化动画
+        /// </summary>
+        /// <param name="targetColor"></param>
+        /// <param name="instant"></param>
         void StartColorTween(Color targetColor, bool instant)
         {
             if (m_TargetGraphic == null)
@@ -583,7 +596,10 @@ namespace UnityEngine.UI
             UpdateSelectionState(eventData);
             InternalEvaluateAndTransitionToSelectionState(false);
         }
-
+        /// <summary>
+        ///根据选中状态，播放相应动画
+        /// </summary>
+        /// <param name="instant"></param>
         private void InternalEvaluateAndTransitionToSelectionState(bool instant)
         {
             var transitionState = m_CurrentSelectionState;

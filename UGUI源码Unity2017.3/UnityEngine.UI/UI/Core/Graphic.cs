@@ -593,11 +593,26 @@ namespace UnityEngine.UI
                 return RectTransformUtility.PixelAdjustRect(rectTransform, canvas);
         }
 
+        /// <summary>
+        /// 颜色动画
+        /// </summary>
+        /// <param name="targetColor">目标颜色</param>
+        /// <param name="duration">持续时间</param>
+        /// <param name="ignoreTimeScale">是否忽略时间缩放</param>
+        /// <param name="useAlpha">是否使用alpha通道</param>
         public virtual void CrossFadeColor(Color targetColor, float duration, bool ignoreTimeScale, bool useAlpha)
         {
             CrossFadeColor(targetColor, duration, ignoreTimeScale, useAlpha, true);
         }
 
+        /// <summary>
+        /// 颜色动画
+        /// </summary>
+        /// <param name="targetColor">目标颜色</param>
+        /// <param name="duration">持续时间</param>
+        /// <param name="ignoreTimeScale">是否忽略时间缩放</param>
+        /// <param name="useAlpha">是否使用alpha通道</param>
+        /// <param name="useRGB">是否使用rgb通道</param>
         public virtual void CrossFadeColor(Color targetColor, float duration, bool ignoreTimeScale, bool useAlpha, bool useRGB)
         {
             if (canvasRenderer == null || (!useRGB && !useAlpha))

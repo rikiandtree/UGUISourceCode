@@ -15,11 +15,17 @@ namespace UnityEngine.UI.CoroutineTween
         bool ValidTarget();
     }
 
+    /// <summary>
+    /// 颜色动画结构体
+    /// </summary>
     // Color tween class, receives the
     // TweenValue callback and then sets
     // the value on the target.
     internal struct ColorTween : ITweenValue
     {
+        /// <summary>
+        /// 颜色动画模式（全部，只有rgb通道，只有alpha通道)
+        /// </summary>
         public enum ColorTweenMode
         {
             All,
@@ -27,6 +33,9 @@ namespace UnityEngine.UI.CoroutineTween
             Alpha
         }
 
+        /// <summary>
+        /// 颜色动画回调函数
+        /// </summary>
         public class ColorTweenCallback : UnityEvent<Color> {}
 
         private ColorTweenCallback m_Target;
@@ -67,6 +76,10 @@ namespace UnityEngine.UI.CoroutineTween
             set { m_IgnoreTimeScale = value; }
         }
 
+        /// <summary>
+        /// 动画主要函数（根据进度lerp颜色并赋值)
+        /// </summary>
+        /// <param name="floatPercentage"></param>
         public void TweenValue(float floatPercentage)
         {
             if (!ValidTarget())
@@ -213,6 +226,10 @@ namespace UnityEngine.UI.CoroutineTween
             m_CoroutineContainer = coroutineContainer;
         }
 
+        /// <summary>
+        /// 开始动画
+        /// </summary>
+        /// <param name="info"></param>
         public void StartTween(T info)
         {
             if (m_CoroutineContainer == null)
