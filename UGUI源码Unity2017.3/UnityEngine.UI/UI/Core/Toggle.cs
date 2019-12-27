@@ -6,24 +6,30 @@ using UnityEngine.Serialization;
 namespace UnityEngine.UI
 {
     /// <summary>
-    /// Simple toggle -- something that has an 'on' and 'off' states: checkbox, toggle button, radio button, etc.
+    /// Simple toggle -- something that has an 'on' and 'off' states: checkbox, toggle button, radio button, etc.（已看过）
     /// </summary>
     [AddComponentMenu("UI/Toggle", 31)]
     [RequireComponent(typeof(RectTransform))]
     public class Toggle : Selectable, IPointerClickHandler, ISubmitHandler, ICanvasElement
     {
+        /// <summary>
+        /// 单选框动画
+        /// </summary>
         public enum ToggleTransition
         {
             None,
             Fade
         }
 
+        /// <summary>
+        /// 单选框事件
+        /// </summary>
         [Serializable]
         public class ToggleEvent : UnityEvent<bool>
         {}
 
         /// <summary>
-        /// Transition type.
+        /// Transition type. 单选框动画
         /// </summary>
         public ToggleTransition toggleTransition = ToggleTransition.Fade;
 
@@ -33,6 +39,9 @@ namespace UnityEngine.UI
         public Graphic graphic;
 
         // group that this toggle can belong to
+        /// <summary>
+        /// 单选框组
+        /// </summary>
         [SerializeField]
         private ToggleGroup m_Group;
 
@@ -122,6 +131,11 @@ namespace UnityEngine.UI
             base.OnDidApplyAnimationProperties();
         }
 
+        /// <summary>
+        /// 设置单选框组
+        /// </summary>
+        /// <param name="newGroup">单选框组</param>
+        /// <param name="setMemberValue"></param>
         private void SetToggleGroup(ToggleGroup newGroup, bool setMemberValue)
         {
             ToggleGroup oldGroup = m_Group;
@@ -163,6 +177,11 @@ namespace UnityEngine.UI
             Set(value, true);
         }
 
+        /// <summary>
+        /// 点击单选框时候触发事件
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="sendCallback"></param>
         void Set(bool value, bool sendCallback)
         {
             if (m_IsOn == value)
@@ -192,7 +211,7 @@ namespace UnityEngine.UI
         }
 
         /// <summary>
-        /// Play the appropriate effect.
+        /// Play the appropriate effect.播放表现效果
         /// </summary>
         private void PlayEffect(bool instant)
         {
@@ -215,6 +234,9 @@ namespace UnityEngine.UI
             PlayEffect(true);
         }
 
+        /// <summary>
+        /// 反转单选框状态
+        /// </summary>
         private void InternalToggle()
         {
             if (!IsActive() || !IsInteractable())
@@ -224,7 +246,7 @@ namespace UnityEngine.UI
         }
 
         /// <summary>
-        /// React to clicks.
+        /// React to clicks.左键点击事件
         /// </summary>
         public virtual void OnPointerClick(PointerEventData eventData)
         {
@@ -234,6 +256,10 @@ namespace UnityEngine.UI
             InternalToggle();
         }
 
+        /// <summary>
+        /// 提交事件
+        /// </summary>
+        /// <param name="eventData"></param>
         public virtual void OnSubmit(BaseEventData eventData)
         {
             InternalToggle();

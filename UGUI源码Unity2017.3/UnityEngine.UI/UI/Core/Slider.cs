@@ -4,10 +4,16 @@ using UnityEngine.EventSystems;
 
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// 滑动条
+    /// </summary>
     [AddComponentMenu("UI/Slider", 33)]
     [RequireComponent(typeof(RectTransform))]
     public class Slider : Selectable, IDragHandler, IInitializePotentialDragHandler, ICanvasElement
     {
+        /// <summary>
+        /// 滑动条方向枚举
+        /// </summary>
         public enum Direction
         {
             LeftToRight,
@@ -19,10 +25,16 @@ namespace UnityEngine.UI
         [Serializable]
         public class SliderEvent : UnityEvent<float> {}
 
+        /// <summary>
+        /// 覆盖的区域
+        /// </summary>
         [SerializeField]
         private RectTransform m_FillRect;
         public RectTransform fillRect { get { return m_FillRect; } set { if (SetPropertyUtility.SetClass(ref m_FillRect, value)) {UpdateCachedReferences(); UpdateVisuals(); } } }
 
+        /// <summary>
+        /// 触手的区域
+        /// </summary>
         [SerializeField]
         private RectTransform m_HandleRect;
         public RectTransform handleRect { get { return m_HandleRect; } set { if (SetPropertyUtility.SetClass(ref m_HandleRect, value)) { UpdateCachedReferences(); UpdateVisuals(); } } }
@@ -31,22 +43,37 @@ namespace UnityEngine.UI
 
         [SerializeField]
         private Direction m_Direction = Direction.LeftToRight;
+        /// <summary>
+        /// 滑动条方向
+        /// </summary>
         public Direction direction { get { return m_Direction; } set { if (SetPropertyUtility.SetStruct(ref m_Direction, value)) UpdateVisuals(); } }
 
         [SerializeField]
         private float m_MinValue = 0;
+        /// <summary>
+        /// 滑动条最小值
+        /// </summary>
         public float minValue { get { return m_MinValue; } set { if (SetPropertyUtility.SetStruct(ref m_MinValue, value)) { Set(m_Value); UpdateVisuals(); } } }
 
         [SerializeField]
         private float m_MaxValue = 1;
+        /// <summary>
+        /// 滑动条最大值
+        /// </summary>
         public float maxValue { get { return m_MaxValue; } set { if (SetPropertyUtility.SetStruct(ref m_MaxValue, value)) { Set(m_Value); UpdateVisuals(); } } }
 
         [SerializeField]
         private bool m_WholeNumbers = false;
+        /// <summary>
+        /// 是否只能为整数
+        /// </summary>
         public bool wholeNumbers { get { return m_WholeNumbers; } set { if (SetPropertyUtility.SetStruct(ref m_WholeNumbers, value)) { Set(m_Value); UpdateVisuals(); } } }
 
         [SerializeField]
         protected float m_Value;
+        /// <summary>
+        /// 滑动条的值
+        /// </summary>
         public virtual float value
         {
             get
@@ -61,6 +88,9 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 归一化数值
+        /// </summary>
         public float normalizedValue
         {
             get
@@ -80,21 +110,33 @@ namespace UnityEngine.UI
         // Allow for delegate-based subscriptions for faster events than 'eventReceiver', and allowing for multiple receivers.
         [SerializeField]
         private SliderEvent m_OnValueChanged = new SliderEvent();
+        /// <summary>
+        /// 滑动条事件
+        /// </summary>
         public SliderEvent onValueChanged { get { return m_OnValueChanged; } set { m_OnValueChanged = value; } }
 
         // Private fields
-
+        /// <summary>
+        /// 覆盖的图片
+        /// </summary>
         private Image m_FillImage;
         private Transform m_FillTransform;
         private RectTransform m_FillContainerRect;
+        /// <summary>
+        /// 触手的组件
+        /// </summary>
         private Transform m_HandleTransform;
         private RectTransform m_HandleContainerRect;
 
         // The offset from handle position to mouse down position
         private Vector2 m_Offset = Vector2.zero;
-
+        /// <summary>
+        /// 禁用某些控件的组件
+        /// </summary>
         private DrivenRectTransformTracker m_Tracker;
-
+        /// <summary>
+        /// 每一步的尺寸
+        /// </summary>
         // Size of each step.
         float stepSize { get { return wholeNumbers ? 1 : (maxValue - minValue) * 0.1f; } }
 
@@ -142,6 +184,9 @@ namespace UnityEngine.UI
         public virtual void GraphicUpdateComplete()
         {}
 
+        /// <summary>
+        /// 启用
+        /// </summary>
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -151,6 +196,9 @@ namespace UnityEngine.UI
             UpdateVisuals();
         }
 
+        /// <summary>
+        /// 禁用
+        /// </summary>
         protected override void OnDisable()
         {
             m_Tracker.Clear();
@@ -182,6 +230,9 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 更新缓存引用，主要是覆盖区域和触手的recttransform组件
+        /// </summary>
         void UpdateCachedReferences()
         {
             if (m_FillRect && m_FillRect != (RectTransform)transform)
@@ -211,6 +262,11 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 钳位函数，如果值小于最小值则为最小值，否则为最大值
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         float ClampValue(float input)
         {
             float newValue = Mathf.Clamp(input, minValue, maxValue);
@@ -219,12 +275,21 @@ namespace UnityEngine.UI
             return newValue;
         }
 
+        /// <summary>
+        /// 设置滑动条数值
+        /// </summary>
+        /// <param name="input"></param>
         // Set the valueUpdate the visible Image.
         void Set(float input)
         {
             Set(input, true);
         }
 
+        /// <summary>
+        /// 设置滑动条数值
+        /// </summary>
+        /// <param name="input">滑动数值</param>
+        /// <param name="sendCallback">是否发送事件</param>
         protected virtual void Set(float input, bool sendCallback)
         {
             // Clamp the input
@@ -264,6 +329,9 @@ namespace UnityEngine.UI
         bool reverseValue { get { return m_Direction == Direction.RightToLeft || m_Direction == Direction.TopToBottom; } }
 
         // Force-update the slider. Useful if you've changed the properties and want it to update visually.
+        /// <summary>
+        /// 更新滑动条数值，以及触手位置和背景覆盖（从改变anchor和不变位置的情况下更改覆盖面积）
+        /// </summary>
         private void UpdateVisuals()
         {
 #if UNITY_EDITOR

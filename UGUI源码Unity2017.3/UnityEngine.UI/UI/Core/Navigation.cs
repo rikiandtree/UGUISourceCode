@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 namespace UnityEngine.UI
 {
     /// <summary>
-    /// 导航
+    /// 导航（已看完）
     /// </summary>
     [Serializable]
     public struct Navigation : IEquatable<Navigation>

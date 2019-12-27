@@ -3,22 +3,37 @@ using UnityEngine.Serialization;
 
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// 颜色块结构体，保存着选择控件经过，按压，禁用的颜色（已看过）
+    /// </summary>
     [Serializable]
     public struct ColorBlock : IEquatable<ColorBlock>
     {
+        /// <summary>
+        /// 普通颜色
+        /// </summary>
         [FormerlySerializedAs("normalColor")]
         [SerializeField]
         private Color m_NormalColor;
 
+        /// <summary>
+        /// 经过颜色
+        /// </summary>
         [FormerlySerializedAs("highlightedColor")]
         [FormerlySerializedAs("m_SelectedColor")]
         [SerializeField]
         private Color m_HighlightedColor;
 
+        /// <summary>
+        /// 按压颜色
+        /// </summary>
         [FormerlySerializedAs("pressedColor")]
         [SerializeField]
         private Color m_PressedColor;
 
+        /// <summary>
+        /// 禁用颜色
+        /// </summary>
         [FormerlySerializedAs("disabledColor")]
         [SerializeField]
         private Color m_DisabledColor;
@@ -27,6 +42,9 @@ namespace UnityEngine.UI
         [SerializeField]
         private float m_ColorMultiplier;
 
+        /// <summary>
+        /// 渐隐时间
+        /// </summary>
         [FormerlySerializedAs("fadeDuration")]
         [SerializeField]
         private float m_FadeDuration;
@@ -38,6 +56,9 @@ namespace UnityEngine.UI
         public float colorMultiplier   { get { return m_ColorMultiplier; } set { m_ColorMultiplier = value; } }
         public float fadeDuration      { get { return m_FadeDuration; } set { m_FadeDuration = value; } }
 
+        /// <summary>
+        /// 默认的颜色块
+        /// </summary>
         public static ColorBlock defaultColorBlock
         {
             get

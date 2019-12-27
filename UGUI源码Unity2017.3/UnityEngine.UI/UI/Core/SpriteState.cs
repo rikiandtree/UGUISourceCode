@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 namespace UnityEngine.UI
 {
     /// <summary>
-    /// 精灵状态
+    /// 选择控件的精灵状态（经过，按压，禁用）（已看过）
     /// </summary>
     [Serializable]
     public struct SpriteState : IEquatable<SpriteState>

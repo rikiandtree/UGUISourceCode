@@ -6,6 +6,9 @@ using UnityEngine.Serialization;
 
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// 按键（已看过）
+    /// </summary>
     // Button that's meant to work with mouse or touch-based devices.
     [AddComponentMenu("UI/Button", 30)]
     public class Button : Selectable, IPointerClickHandler, ISubmitHandler
@@ -51,6 +54,10 @@ namespace UnityEngine.UI
             Press();
         }
 
+        /// <summary>
+        /// 提交事件
+        /// </summary>
+        /// <param name="eventData"></param>
         public virtual void OnSubmit(BaseEventData eventData)
         {
             Press();
@@ -64,6 +71,10 @@ namespace UnityEngine.UI
             StartCoroutine(OnFinishSubmit());
         }
 
+        /// <summary>
+        /// 结束提交
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator OnFinishSubmit()
         {
             var fadeTime = colors.fadeDuration;

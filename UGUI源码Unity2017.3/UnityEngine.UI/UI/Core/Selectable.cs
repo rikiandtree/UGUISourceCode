@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// 简单选择物体
+    /// </summary>
     // Simple selectable object - derived from to create a control.
     [AddComponentMenu("UI/Selectable", 70)]
     [ExecuteInEditMode]
@@ -43,16 +46,25 @@ namespace UnityEngine.UI
         [SerializeField]
         private Transition m_Transition = Transition.ColorTint;
 
+        /// <summary>
+        /// 用于颜色动画的颜色块为默认值
+        /// </summary>
         // Colors used for a color tint-based transition.
         [FormerlySerializedAs("colors")]
         [SerializeField]
         private ColorBlock m_Colors = ColorBlock.defaultColorBlock;
 
+        /// <summary>
+        /// 用于精灵动画
+        /// </summary>
         // Sprites used for a Image swap-based transition.
         [FormerlySerializedAs("spriteState")]
         [SerializeField]
         private SpriteState m_SpriteState;
 
+        /// <summary>
+        /// 用于按键状态动画
+        /// </summary>
         [FormerlySerializedAs("animationTriggers")]
         [SerializeField]
         private AnimationTriggers m_AnimationTriggers = new AnimationTriggers();
@@ -73,7 +85,9 @@ namespace UnityEngine.UI
         [SerializeField]
         private Graphic m_TargetGraphic;
 
-
+        /// <summary>
+        /// 组是否允许交互
+        /// </summary>
         private bool m_GroupsAllowInteraction = true;
 
         /// <summary>
@@ -103,8 +117,17 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 是否指针在内部
+        /// </summary>
         private bool             isPointerInside   { get; set; }
+        /// <summary>
+        /// 是否指针按下
+        /// </summary>
         private bool             isPointerDown     { get; set; }
+        /// <summary>
+        /// 是否有选择
+        /// </summary>
         private bool             hasSelection      { get; set; }
 
         protected Selectable()
@@ -130,6 +153,9 @@ namespace UnityEngine.UI
         }
 
         private readonly List<CanvasGroup> m_CanvasGroupCache = new List<CanvasGroup>();
+        /// <summary>
+        /// 改变画布组
+        /// </summary>
         protected override void OnCanvasGroupChanged()
         {
             // Figure out if parent groups allow interaction
@@ -168,6 +194,10 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 是否可交互（为画布允许交互和自身可交互共同结果）
+        /// </summary>
+        /// <returns></returns>
         public virtual bool IsInteractable()
         {
             return m_GroupsAllowInteraction && m_Interactable;
@@ -198,6 +228,9 @@ namespace UnityEngine.UI
             InternalEvaluateAndTransitionToSelectionState(true);
         }
 
+        /// <summary>
+        /// 设置属性
+        /// </summary>
         private void OnSetProperty()
         {
 #if UNITY_EDITOR
@@ -248,11 +281,17 @@ namespace UnityEngine.UI
 
 #endif // if UNITY_EDITOR
 
+        /// <summary>
+        /// 当前控件状态
+        /// </summary>
         protected SelectionState currentSelectionState
         {
             get { return m_CurrentSelectionState; }
         }
 
+        /// <summary>
+        /// 实例清除状态
+        /// </summary>
         protected virtual void InstantClearState()
         {
             string triggerName = m_AnimationTriggers.normalTrigger;
@@ -278,8 +317,8 @@ namespace UnityEngine.UI
         /// <summary>
         /// 播放相应状态的动画
         /// </summary>
-        /// <param name="state"></param>
-        /// <param name="instant"></param>
+        /// <param name="state">控件状态</param>
+        /// <param name="instant">是否需要持续时间</param>
         protected virtual void DoStateTransition(SelectionState state, bool instant)
         {
             Color tintColor;
@@ -473,6 +512,10 @@ namespace UnityEngine.UI
             return null;
         }
 
+        /// <summary>
+        /// 移动
+        /// </summary>
+        /// <param name="eventData"></param>
         public virtual void OnMove(AxisEventData eventData)
         {
             switch (eventData.moveDir)
@@ -498,8 +541,8 @@ namespace UnityEngine.UI
         /// <summary>
         /// 开始颜色变化动画
         /// </summary>
-        /// <param name="targetColor"></param>
-        /// <param name="instant"></param>
+        /// <param name="targetColor">目标颜色</param>
+        /// <param name="instant">是否需要持续时间</param>
         void StartColorTween(Color targetColor, bool instant)
         {
             if (m_TargetGraphic == null)
@@ -508,6 +551,10 @@ namespace UnityEngine.UI
             m_TargetGraphic.CrossFadeColor(targetColor, instant ? 0f : m_Colors.fadeDuration, true, true);
         }
 
+        /// <summary>
+        /// 精灵改变
+        /// </summary>
+        /// <param name="newSprite"></param>
         void DoSpriteSwap(Sprite newSprite)
         {
             if (image == null)
@@ -516,6 +563,10 @@ namespace UnityEngine.UI
             image.overrideSprite = newSprite;
         }
 
+        /// <summary>
+        /// 动画
+        /// </summary>
+        /// <param name="triggername"></param>
         void TriggerAnimation(string triggername)
         {
             if (transition != Transition.Animation || animator == null || !animator.isActiveAndEnabled || !animator.hasBoundPlayables || string.IsNullOrEmpty(triggername))
@@ -529,6 +580,11 @@ namespace UnityEngine.UI
             animator.SetTrigger(triggername);
         }
 
+        /// <summary>
+        /// 是否为经过控件
+        /// </summary>
+        /// <param name="eventData"></param>
+        /// <returns></returns>
         // Whether the control should be 'selected'.
         protected bool IsHighlighted(BaseEventData eventData)
         {
@@ -560,6 +616,10 @@ namespace UnityEngine.UI
             return IsPressed();
         }
 
+        /// <summary>
+        /// 是否按压
+        /// </summary>
+        /// <returns></returns>
         // Whether the control should be pressed.
         protected bool IsPressed()
         {
@@ -569,6 +629,10 @@ namespace UnityEngine.UI
             return isPointerInside && isPointerDown;
         }
 
+        /// <summary>
+        /// 根据点击数据更新控件状态
+        /// </summary>
+        /// <param name="eventData"></param>
         // The current visual state of the control.
         protected void UpdateSelectionState(BaseEventData eventData)
         {
@@ -586,7 +650,10 @@ namespace UnityEngine.UI
 
             m_CurrentSelectionState = SelectionState.Normal;
         }
-
+        /// <summary>
+        /// 改变控件为正确的状态
+        /// </summary>
+        /// <param name="eventData"></param>
         // Change the button to the correct state
         private void EvaluateAndTransitionToSelectionState(BaseEventData eventData)
         {
@@ -599,7 +666,7 @@ namespace UnityEngine.UI
         /// <summary>
         ///根据选中状态，播放相应动画
         /// </summary>
-        /// <param name="instant"></param>
+        /// <param name="instant">是否用颜色持续时间</param>
         private void InternalEvaluateAndTransitionToSelectionState(bool instant)
         {
             var transitionState = m_CurrentSelectionState;
@@ -607,7 +674,10 @@ namespace UnityEngine.UI
                 transitionState = SelectionState.Disabled;
             DoStateTransition(transitionState, instant);
         }
-
+        /// <summary>
+        /// 按键按下
+        /// </summary>
+        /// <param name="eventData">点击数据</param>
         public virtual void OnPointerDown(PointerEventData eventData)
         {
             if (eventData.button != PointerEventData.InputButton.Left)
@@ -621,6 +691,10 @@ namespace UnityEngine.UI
             EvaluateAndTransitionToSelectionState(eventData);
         }
 
+        /// <summary>
+        /// 按键结束
+        /// </summary>
+        /// <param name="eventData"></param>
         public virtual void OnPointerUp(PointerEventData eventData)
         {
             if (eventData.button != PointerEventData.InputButton.Left)
@@ -630,30 +704,49 @@ namespace UnityEngine.UI
             EvaluateAndTransitionToSelectionState(eventData);
         }
 
+        /// <summary>
+        /// 按键进入
+        /// </summary>
+        /// <param name="eventData"></param>
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
             isPointerInside = true;
             EvaluateAndTransitionToSelectionState(eventData);
         }
 
+        /// <summary>
+        /// 按键离开
+        /// </summary>
+        /// <param name="eventData"></param>
         public virtual void OnPointerExit(PointerEventData eventData)
         {
             isPointerInside = false;
             EvaluateAndTransitionToSelectionState(eventData);
         }
 
+        /// <summary>
+        /// 选择
+        /// </summary>
+        /// <param name="eventData"></param>
         public virtual void OnSelect(BaseEventData eventData)
         {
             hasSelection = true;
             EvaluateAndTransitionToSelectionState(eventData);
         }
 
+        /// <summary>
+        /// 没有选择
+        /// </summary>
+        /// <param name="eventData"></param>
         public virtual void OnDeselect(BaseEventData eventData)
         {
             hasSelection = false;
             EvaluateAndTransitionToSelectionState(eventData);
         }
 
+        /// <summary>
+        /// 选择
+        /// </summary>
         public virtual void Select()
         {
             if (EventSystem.current == null || EventSystem.current.alreadySelecting)

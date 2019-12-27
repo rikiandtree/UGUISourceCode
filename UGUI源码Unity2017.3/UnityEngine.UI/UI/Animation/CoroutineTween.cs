@@ -3,6 +3,9 @@ using UnityEngine.Events;
 
 namespace UnityEngine.UI.CoroutineTween
 {
+    /// <summary>
+    /// ÒÑ¿´Íê
+    /// </summary>
     // Base interface for tweeners,
     // using an interface instead of
     // an abstract class as we want the
