@@ -1,22 +1,45 @@
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// 水平或垂直布局组
+    /// </summary>
     public abstract class HorizontalOrVerticalLayoutGroup : LayoutGroup
     {
+        /// <summary>
+        /// 子对象间距
+        /// </summary>
         [SerializeField] protected float m_Spacing = 0;
         public float spacing { get { return m_Spacing; } set { SetProperty(ref m_Spacing, value); } }
 
+        /// <summary>
+        /// 是否强制拓展宽度
+        /// </summary>
         [SerializeField] protected bool m_ChildForceExpandWidth = true;
         public bool childForceExpandWidth { get { return m_ChildForceExpandWidth; } set { SetProperty(ref m_ChildForceExpandWidth, value); } }
 
+        /// <summary>
+        /// 是否强制拓展高度
+        /// </summary>
         [SerializeField] protected bool m_ChildForceExpandHeight = true;
         public bool childForceExpandHeight { get { return m_ChildForceExpandHeight; } set { SetProperty(ref m_ChildForceExpandHeight, value); } }
 
+        /// <summary>
+        /// 是否子对象控制宽度
+        /// </summary>
         [SerializeField] protected bool m_ChildControlWidth = true;
         public bool childControlWidth { get { return m_ChildControlWidth; } set { SetProperty(ref m_ChildControlWidth, value); } }
 
+        /// <summary>
+        /// 是否子对象控制高度
+        /// </summary>
         [SerializeField] protected bool m_ChildControlHeight = true;
         public bool childControlHeight { get { return m_ChildControlHeight; } set { SetProperty(ref m_ChildControlHeight, value); } }
 
+        /// <summary>
+        /// 沿轴计算
+        /// </summary>
+        /// <param name="axis">轴</param>
+        /// <param name="isVertical">是否是垂直向</param>
         protected void CalcAlongAxis(int axis, bool isVertical)
         {
             float combinedPadding = (axis == 0 ? padding.horizontal : padding.vertical);
@@ -59,6 +82,11 @@ namespace UnityEngine.UI
             SetLayoutInputForAxis(totalMin, totalPreferred, totalFlexible, axis);
         }
 
+        /// <summary>
+        /// 设置子对象沿轴
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="isVertical"></param>
         protected void SetChildrenAlongAxis(int axis, bool isVertical)
         {
             float size = rectTransform.rect.size[axis];
@@ -128,6 +156,16 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 活动子对象尺寸
+        /// </summary>
+        /// <param name="child">子对象</param>
+        /// <param name="axis">轴</param>
+        /// <param name="controlSize">是否控制尺寸</param>
+        /// <param name="childForceExpand"></param>
+        /// <param name="min"></param>
+        /// <param name="preferred"></param>
+        /// <param name="flexible"></param>
         private void GetChildSizes(RectTransform child, int axis, bool controlSize, bool childForceExpand,
             out float min, out float preferred, out float flexible)
         {

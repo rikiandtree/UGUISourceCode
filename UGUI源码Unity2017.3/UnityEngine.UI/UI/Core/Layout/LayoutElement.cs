@@ -2,6 +2,9 @@ using UnityEngine.EventSystems;
 
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// ²¼¾ÖÔªËØ
+    /// </summary>
     [AddComponentMenu("Layout/Layout Element", 140)]
     [RequireComponent(typeof(RectTransform))]
     [ExecuteInEditMode]

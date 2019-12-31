@@ -10,13 +10,22 @@ namespace UnityEngine.UI
     [RequireComponent(typeof(RectTransform))]
     public abstract class LayoutGroup : UIBehaviour, ILayoutElement, ILayoutGroup
     {
+        /// <summary>
+        /// 边距
+        /// </summary>
         [SerializeField] protected RectOffset m_Padding = new RectOffset();
         public RectOffset padding { get { return m_Padding; } set { SetProperty(ref m_Padding, value); } }
 
+        /// <summary>
+        /// 子对象的排列顺序
+        /// </summary>
         [FormerlySerializedAs("m_Alignment")]
         [SerializeField] protected TextAnchor m_ChildAlignment = TextAnchor.UpperLeft;
         public TextAnchor childAlignment { get { return m_ChildAlignment; } set { SetProperty(ref m_ChildAlignment, value); } }
 
+        /// <summary>
+        /// transform组件
+        /// </summary>
         [System.NonSerialized] private RectTransform m_Rect;
         protected RectTransform rectTransform
         {
@@ -28,15 +37,33 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 禁用属性对象
+        /// </summary>
         protected DrivenRectTransformTracker m_Tracker;
+        /// <summary>
+        /// 总体最小值
+        /// </summary>
         private Vector2 m_TotalMinSize = Vector2.zero;
+        /// <summary>
+        /// 总体最优值
+        /// </summary>
         private Vector2 m_TotalPreferredSize = Vector2.zero;
+        /// <summary>
+        /// 总体弹性值
+        /// </summary>
         private Vector2 m_TotalFlexibleSize = Vector2.zero;
 
+        /// <summary>
+        /// 子对象transform组件
+        /// </summary>
         [System.NonSerialized] private List<RectTransform> m_RectChildren = new List<RectTransform>();
         protected List<RectTransform> rectChildren { get { return m_RectChildren; } }
 
         // ILayoutElement Interface
+        /// <summary>
+        /// 计算布局输出水平值
+        /// </summary>
         public virtual void CalculateLayoutInputHorizontal()
         {
             m_RectChildren.Clear();
@@ -76,6 +103,9 @@ namespace UnityEngine.UI
         public virtual float minHeight { get { return GetTotalMinSize(1); } }
         public virtual float preferredHeight { get { return GetTotalPreferredSize(1); } }
         public virtual float flexibleHeight { get { return GetTotalFlexibleSize(1); } }
+        /// <summary>
+        /// 布局优先级
+        /// </summary>
         public virtual int layoutPriority { get { return 0; } }
 
         // ILayoutController Interface
@@ -109,16 +139,31 @@ namespace UnityEngine.UI
             SetDirty();
         }
 
+        /// <summary>
+        /// 根据轴获取最小尺寸
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
         protected float GetTotalMinSize(int axis)
         {
             return m_TotalMinSize[axis];
         }
 
+        /// <summary>
+        /// 根据轴获取最优尺寸
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
         protected float GetTotalPreferredSize(int axis)
         {
             return m_TotalPreferredSize[axis];
         }
 
+        /// <summary>
+        /// 根据轴获取弹性尺寸
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
         protected float GetTotalFlexibleSize(int axis)
         {
             return m_TotalFlexibleSize[axis];
@@ -141,6 +186,13 @@ namespace UnityEngine.UI
                 return ((int)childAlignment / 3) * 0.5f;
         }
 
+        /// <summary>
+        /// 设置轴上的各种属性
+        /// </summary>
+        /// <param name="totalMin">最小值</param>
+        /// <param name="totalPreferred">最优值</param>
+        /// <param name="totalFlexible">弹性值</param>
+        /// <param name="axis">轴</param>
         protected void SetLayoutInputForAxis(float totalMin, float totalPreferred, float totalFlexible, int axis)
         {
             m_TotalMinSize[axis] = totalMin;
@@ -148,6 +200,12 @@ namespace UnityEngine.UI
             m_TotalFlexibleSize[axis] = totalFlexible;
         }
 
+        /// <summary>
+        /// 设置子对象的沿轴
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="axis"></param>
+        /// <param name="pos"></param>
         protected void SetChildAlongAxis(RectTransform rect, int axis, float pos)
         {
             if (rect == null)
@@ -160,6 +218,13 @@ namespace UnityEngine.UI
             rect.SetInsetAndSizeFromParentEdge(axis == 0 ? RectTransform.Edge.Left : RectTransform.Edge.Top, pos, rect.sizeDelta[axis]);
         }
 
+        /// <summary>
+        /// 设置子对象位置和尺寸
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="axis"></param>
+        /// <param name="pos"></param>
+        /// <param name="size"></param>
         protected void SetChildAlongAxis(RectTransform rect, int axis, float pos, float size)
         {
             if (rect == null)
@@ -175,6 +240,9 @@ namespace UnityEngine.UI
             rect.SetInsetAndSizeFromParentEdge(axis == 0 ? RectTransform.Edge.Left : RectTransform.Edge.Top, pos, size);
         }
 
+        /// <summary>
+        /// 是否为根布局组
+        /// </summary>
         private bool isRootLayoutGroup
         {
             get
@@ -186,6 +254,9 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// transform组件尺寸改变
+        /// </summary>
         protected override void OnRectTransformDimensionsChange()
         {
             base.OnRectTransformDimensionsChange();
@@ -198,6 +269,12 @@ namespace UnityEngine.UI
             SetDirty();
         }
 
+        /// <summary>
+        /// 设置属性
+        /// </summary>
+        /// <typeparam name="T">结构体</typeparam>
+        /// <param name="currentValue">当前值</param>
+        /// <param name="newValue">新值</param>
         protected void SetProperty<T>(ref T currentValue, T newValue)
         {
             if ((currentValue == null && newValue == null) || (currentValue != null && currentValue.Equals(newValue)))
@@ -217,6 +294,11 @@ namespace UnityEngine.UI
                 StartCoroutine(DelayedSetDirty(rectTransform));
         }
 
+        /// <summary>
+        /// 延迟一帧设置数据
+        /// </summary>
+        /// <param name="rectTransform"></param>
+        /// <returns></returns>
         IEnumerator DelayedSetDirty(RectTransform rectTransform)
         {
             yield return null;

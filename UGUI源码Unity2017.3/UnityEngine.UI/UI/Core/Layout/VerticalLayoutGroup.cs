@@ -1,5 +1,8 @@
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [AddComponentMenu("Layout/Vertical Layout Group", 151)]
     public class VerticalLayoutGroup : HorizontalOrVerticalLayoutGroup
     {
