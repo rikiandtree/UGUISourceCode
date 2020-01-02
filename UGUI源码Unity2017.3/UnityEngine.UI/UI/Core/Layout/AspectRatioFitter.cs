@@ -3,17 +3,29 @@ using UnityEngine.EventSystems;
 
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// ui自适应
+    /// </summary>
     [AddComponentMenu("Layout/Aspect Ratio Fitter", 142)]
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     [DisallowMultipleComponent]
     public class AspectRatioFitter : UIBehaviour, ILayoutSelfController
     {
+        /// <summary>
+        /// 自使用模式
+        /// </summary>
         public enum AspectMode { None, WidthControlsHeight, HeightControlsWidth, FitInParent, EnvelopeParent }
 
+        /// <summary>
+        /// 自使用模式
+        /// </summary>
         [SerializeField] private AspectMode m_AspectMode = AspectMode.None;
         public AspectMode aspectMode { get { return m_AspectMode; } set { if (SetPropertyUtility.SetStruct(ref m_AspectMode, value)) SetDirty(); } }
 
+        /// <summary>
+        /// 自使用比例
+        /// </summary>
         [SerializeField] private float m_AspectRatio = 1;
         public float aspectRatio { get { return m_AspectRatio; } set { if (SetPropertyUtility.SetStruct(ref m_AspectRatio, value)) SetDirty(); } }
 
@@ -52,6 +64,9 @@ namespace UnityEngine.UI
             UpdateRect();
         }
 
+        /// <summary>
+        /// 更新recttransform组件
+        /// </summary>
         private void UpdateRect()
         {
             if (!IsActive())

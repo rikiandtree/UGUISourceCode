@@ -2,17 +2,29 @@ using UnityEngine.EventSystems;
 
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// 画布缩放
+    /// </summary>
     [RequireComponent(typeof(Canvas))]
     [ExecuteInEditMode]
     [AddComponentMenu("Layout/Canvas Scaler", 101)]
     public class CanvasScaler : UIBehaviour
     {
+        /// <summary>
+        /// 缩放模式
+        /// </summary>
         public enum ScaleMode { ConstantPixelSize, ScaleWithScreenSize, ConstantPhysicalSize }
 
+        /// <summary>
+        /// 画布缩放模式
+        /// </summary>
         [Tooltip("Determines how UI elements in the Canvas are scaled.")]
         [SerializeField] private ScaleMode m_UiScaleMode = ScaleMode.ConstantPixelSize;
         public ScaleMode uiScaleMode { get { return m_UiScaleMode; } set { m_UiScaleMode = value; } }
 
+        /// <summary>
+        /// 为了抵消image pixels per unit属性
+        /// </summary>
         [Tooltip("If a sprite has this 'Pixels Per Unit' setting, then one pixel in the sprite will cover one unit in the UI.")]
         [SerializeField] protected float m_ReferencePixelsPerUnit = 100;
         public float referencePixelsPerUnit { get { return m_ReferencePixelsPerUnit; } set { m_ReferencePixelsPerUnit = value; } }

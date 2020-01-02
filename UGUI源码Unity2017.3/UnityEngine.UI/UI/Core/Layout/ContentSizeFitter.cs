@@ -2,6 +2,9 @@ using UnityEngine.EventSystems;
 
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// ÄÚÈİ×ÔÊÊÓ¦
+    /// </summary>
     [AddComponentMenu("Layout/Content Size Fitter", 141)]
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
