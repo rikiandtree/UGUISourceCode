@@ -3,6 +3,9 @@ using UnityEngine.UI.Collections;
 
 namespace UnityEngine.UI
 {
+    /// <summary>
+    /// 图像注册
+    /// </summary>
     public class GraphicRegistry
     {
         private static GraphicRegistry s_Instance;
@@ -28,6 +31,11 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// 将graphic注册进canvas中
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="graphic"></param>
         public static void RegisterGraphicForCanvas(Canvas c, Graphic graphic)
         {
             if (c == null)
@@ -48,6 +56,11 @@ namespace UnityEngine.UI
             instance.m_Graphics.Add(c, graphics);
         }
 
+        /// <summary>
+        /// 移除canvas下的graphic
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="graphic"></param>
         public static void UnregisterGraphicForCanvas(Canvas c, Graphic graphic)
         {
             if (c == null)

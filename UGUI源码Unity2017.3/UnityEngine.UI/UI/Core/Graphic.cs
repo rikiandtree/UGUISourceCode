@@ -89,12 +89,12 @@ namespace UnityEngine.UI
             SetVerticesDirty();
             SetMaterialDirty();
         }
-        //设置布局变化
+        ///设置布局变化a
         public virtual void SetLayoutDirty()
         {
             if (!IsActive())
                 return;
-            //?????????????
+   
             LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
 
             if (m_OnDirtyLayoutCallback != null)
@@ -141,13 +141,18 @@ namespace UnityEngine.UI
                 }
             }
         }
-        //？？？？？？？？？？？？？？？
+        /// <summary>
+        /// 父类组件变更之前
+        /// </summary>
         protected override void OnBeforeTransformParentChanged()
         {
             GraphicRegistry.UnregisterGraphicForCanvas(canvas, this);
             LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
         }
 
+        /// <summary>
+        /// 当父类组件变化
+        /// </summary>
         protected override void OnTransformParentChanged()
         {
             base.OnTransformParentChanged();
